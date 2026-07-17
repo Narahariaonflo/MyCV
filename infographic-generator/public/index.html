@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartphone Infographic Generator – Galaxy S26 Ultra vs iPhone 17 Pro Max</title>
+  <meta name="description" content="Generate side-by-side smartphone comparison infographics comparing Samsung Galaxy S26 Ultra and iPhone 17 Pro Max specifications and pricing.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Smartphone Infographic Generator">
+  <meta property="og:description" content="Side-by-side Galaxy S26 Ultra vs iPhone 17 Pro Max comparison infographics.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smartphone Infographic Generator">
+  <meta name="twitter:description" content="Side-by-side Galaxy S26 Ultra vs iPhone 17 Pro Max comparison infographics.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="/">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Structured Data: Product comparison -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Smartphone Infographic Generator",
+    "applicationCategory": "Multimedia",
+    "operatingSystem": "All",
+    "description": "Generate side-by-side smartphone comparison infographics comparing Samsung Galaxy S26 Ultra and iPhone 17 Pro Max.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Side-by-side specification comparison",
+      "Pricing comparison",
+      "PNG image download"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Infographic Generator</h1>
+    <p class="subtitle">
+      Generate a side-by-side smartphone comparison infographic.
+      Select one phone for each column below.
+    </p>
+
+    <div class="legend">
+      <span><span class="legend-dot blue"></span> Phone 1 (left column)</span>
+      <span><span class="legend-dot red"></span> Phone 2 (right column)</span>
+    </div>
+
+    <div class="phone-selector" id="phoneSelector">
+      <div class="phone-card" data-id="galaxy-s26-ultra" data-role="phone1">
+        <h3>Galaxy S26 Ultra</h3>
+        <p class="brand">Samsung</p>
+        <div class="selector-indicator">Select as Phone 1</div>
+      </div>
+      <div class="phone-card" data-id="iphone-17-pro-max" data-role="phone2">
+        <h3>iPhone 17 Pro Max</h3>
+        <p class="brand">Apple</p>
+        <div class="selector-indicator">Select as Phone 2</div>
+      </div>
+    </div>
+
+    <button class="generate-btn" id="generateBtn" disabled>
+      Select a phone for each column to begin
+    </button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>

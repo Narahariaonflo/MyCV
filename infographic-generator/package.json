@@ -1,0 +1,34 @@
+{
+  "name": "infographic-generator",
+  "version": "1.0.0",
+  "description": "Automated smartphone infographic generator comparing Samsung Galaxy S26 Ultra and iPhone 17 Pro Max",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "jest --forceExit --detectOpenHandles --passWithNoTests",
+    "test:watch": "jest --watchAll --forceExit",
+    "test:coverage": "jest --coverage --forceExit"
+  },
+  "keywords": [
+    "infographic",
+    "smartphone",
+    "comparison",
+    "generator"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.18.1",
+    "canvas": "^2.11.2",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "express": "^4.22.2",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nock": "^13.5.6",
+    "supertest": "^7.2.2"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://infographic-generator/schemas/phone-specs.schema.json",
+  "title": "PhoneSpecification",
+  "description": "Normalized smartphone specification data used to render the infographic comparison.",
+  "type": "object",
+  "required": [
+    "id",
+    "brand",
+    "model",
+    "display",
+    "processor",
+    "ram",
+    "storage",
+    "camera",
+    "battery",
+    "os",
+    "dimensions",
+    "weight",
+    "fetchedAt"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Canonical slug identifier, e.g. galaxy-s26-ultra or iphone-17-pro-max.",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Manufacturer name, e.g. Samsung or Apple.",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "description": "Consumer-facing model name, e.g. Galaxy S26 Ultra or iPhone 17 Pro Max.",
+      "minLength": 1
+    },
+    "display": {
+      "type": "object",
+      "required": ["size", "resolution", "technology", "refreshRate"],
+      "properties": {
+        "size": {
+          "type": "string",
+          "description": "Diagonal size, e.g. 6.9 inches.",
+          "pattern": "^\\d+(\\.\\d+)?\\s*inches$"
+        },
+        "resolution": {
+          "type": "string",
+          "description": "Pixel dimensions, e.g. 1440 x 3120.",
+          "pattern": "^\\d+\\s*x\\s*\\d+$"
+        },
+        "technology": {
+          "type": "string",
+          "description": "Panel technology, e.g. Dynamic AMOLED 2X or Super Retina XDR OLED."
+        },
+        "refreshRate": {
+          "type": "string",
+          "description": "Refresh rate, e.g. 120Hz.",
+          "pattern": "^\\d+Hz$"
+        }
+      }
+    },
+    "processor": {
+      "type": "object",
+      "required": ["chipset", "cpu", "gpu"],
+      "properties": {
+        "chipset": {
+          "type": "string",
+          "description": "SoC name, e.g. Snapdragon 8 Gen 4 or A18 Pro.",
+          "minLength": 1
+        },
+        "cpu": {
+          "type": "string",
+          "description": "CPU configuration, e.g. Octa-core (1x3.8 GHz + 3x3.0 GHz + 4x2.0 GHz)."
+        },
+        "gpu": {
+          "type": "string",
+          "description": "GPU name, e.g. Adreno 760 or Apple GPU (6-core)."
+        }
+      }
+    },
+    "ram": {
+      "type": "string",
+      "description": "RAM capacity for base variant, e.g. 12GB.",
+      "pattern": "^\\d+GB$"
+    },
+    "storage": {
+      "type": "string",
+      "description": "Internal storage for base variant, e.g. 256GB.",
+      "pattern": "^\\d+GB$"
+    },
+    "camera": {
+      "type": "object",
+      "required": ["rear", "front"],
+      "properties": {
+        "rear": {
+          "type": "string",
+          "description": "Rear camera setup description, e.g. 200MP wide + 50MP ultrawide + 50MP telephoto."
+        },
+        "front": {
+          "type": "string",
+          "description": "Front camera description, e.g. 12MP with autofocus."
+        }
+      }
+    },
+    "battery": {
+      "type": "object",
+      "required": ["capacity", "charging"],
+      "properties": {
+        "capacity": {
+          "type": "string",
+          "description": "Battery capacity, e.g. 5000 mAh.",
+          "pattern": "^\\d+\\s*mAh$"
+        },
+        "charging": {
+          "type": "string",
+          "description": "Wired and wireless charging speeds, e.g. 45W wired, 25W wireless."
+        }
+      }
+    },
+    "os": {
+      "type": "string",
+      "description": "Operating system, e.g. Android 15 with One UI 7 or iOS 19.",
+      "minLength": 1
+    },
+    "dimensions": {
+      "type": "string",
+      "description": "Physical dimensions, e.g. 162.8 x 77.6 x 8.2 mm.",
+      "pattern": "^\\d+(\\.\\d+)?\\s*x\\s*\\d+(\\.\\d+)?\\s*x\\s*\\d+(\\.\\d+)?\\s*mm$"
+    },
+    "weight": {
+      "type": "string",
+      "description": "Device weight, e.g. 219 g.",
+      "pattern": "^\\d+(\\.\\d+)?\\s*g$"
+    },
+    "fetchedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the data was fetched."
+    }
+  }
+}

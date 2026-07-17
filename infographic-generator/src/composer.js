@@ -1,0 +1,167 @@
+'use strict';
+
+const { createCanvas, loadImage, registerFont } = require('canvas');
+const path = require('path');
+
+// Canvas dimensions (4:5 aspect ratio)
+const WIDTH = 1080;
+const HEIGHT = 1350;
+
+// Layout constants
+const PADDING = 40;
+const HEADER_HEIGHT = 80;
+const COL_WIDTH = (WIDTH - PADDING * 3) / 2;
+const COL_LEFT = PADDING;
+const COL_RIGHT = PADDING * 2 + COL_WIDTH;
+
+const COLORS = {
+  background: '#0f172a',
+  card: '#1e293b',
+  accent1: '#3b82f6',  // blue for phone1
+  accent2: '#ef4444',  // red for phone2
+  text: '#f1f5f9',
+  textMuted: '#94a3b8',
+  border: '#334155',
+  white: '#ffffff',
+};
+
+/**
+ * Draw rounded rectangle
+ */
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+/**
+ * Draw a specification row.
+ * Label is drawn on the left at PADDING; value1 is offset to give the label room;
+ * value2 is drawn at COL_RIGHT (the right data column).
+ */
+function drawSpecRow(ctx, label, value1, value2, y) {
+  const rowHeight = 32;
+  const labelX = PADDING;
+  const value1X = PADDING + 180; // offset to avoid overlapping the label
+  const value2X = COL_RIGHT;
+
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '14px sans-serif';
+  ctx.fillText(label, labelX, y + 18);
+
+  ctx.fillStyle = COLORS.text;
+  ctx.font = 'bold 14px sans-serif';
+  ctx.fillText(value1, value1X, y + 18);
+  ctx.fillText(value2, value2X, y + 18);
+
+  return y + rowHeight;
+}
+
+/**
+ * Draw a section header
+ */
+function drawSectionHeader(ctx, title, y) {
+  ctx.fillStyle = COLORS.white;
+  ctx.font = 'bold 18px sans-serif';
+  ctx.fillText(title, PADDING, y + 24);
+  ctx.strokeStyle = COLORS.border;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PADDING, y + 34);
+  ctx.lineTo(WIDTH - PADDING, y + 34);
+  ctx.stroke();
+  return y + 50;
+}
+
+/**
+ * Main infographic generation
+ */
+async function generateInfographic({ phone1, phone2 }) {
+  const canvas = createCanvas(WIDTH, HEIGHT);
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = COLORS.background;
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  // Title
+  ctx.fillStyle = COLORS.white;
+  ctx.font = 'bold 32px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Smartphone Comparison', WIDTH / 2, PADDING + 32);
+  ctx.textAlign = 'left';
+
+  // Subtitle
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '16px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${phone1.model} vs ${phone2.model}`, WIDTH / 2, PADDING + 58);
+  ctx.textAlign = 'left';
+
+  let y = PADDING + HEADER_HEIGHT;
+
+  // Pricing
+  y = drawSectionHeader(ctx, '💰 Pricing', y);
+
+  const price1Str = phone1.price
+    ? `${phone1.price.currency} ${phone1.price.price.toLocaleString()}`
+    : 'N/A';
+  const price2Str = phone2.price
+    ? `${phone2.price.currency} ${phone2.price.price.toLocaleString()}`
+    : 'N/A';
+  y = drawSpecRow(ctx, 'Price', price1Str, price2Str, y);
+
+  // Display
+  y = drawSectionHeader(ctx, '📱 Display', y + 10);
+  y = drawSpecRow(ctx, 'Size', phone1.display.size, phone2.display.size, y);
+  y = drawSpecRow(ctx, 'Resolution', phone1.display.resolution, phone2.display.resolution, y);
+  y = drawSpecRow(ctx, 'Technology', phone1.display.technology, phone2.display.technology, y);
+  y = drawSpecRow(ctx, 'Refresh Rate', phone1.display.refreshRate, phone2.display.refreshRate, y);
+
+  // Processor
+  y = drawSectionHeader(ctx, '⚡ Processor', y + 10);
+  y = drawSpecRow(ctx, 'Chipset', phone1.processor.chipset, phone2.processor.chipset, y);
+
+  // Memory
+  y = drawSectionHeader(ctx, '💾 Memory', y + 10);
+  y = drawSpecRow(ctx, 'RAM', phone1.ram, phone2.ram, y);
+  y = drawSpecRow(ctx, 'Storage', phone1.storage, phone2.storage, y);
+
+  // Camera
+  y = drawSectionHeader(ctx, '📷 Camera', y + 10);
+  y = drawSpecRow(ctx, 'Rear', phone1.camera.rear, phone2.camera.rear, y);
+  y = drawSpecRow(ctx, 'Front', phone1.camera.front, phone2.camera.front, y);
+
+  // Battery
+  y = drawSectionHeader(ctx, '🔋 Battery', y + 10);
+  y = drawSpecRow(ctx, 'Capacity', phone1.battery.capacity, phone2.battery.capacity, y);
+  y = drawSpecRow(ctx, 'Charging', phone1.battery.charging, phone2.battery.charging, y);
+
+  // OS
+  y = drawSectionHeader(ctx, '🖥️ Software', y + 10);
+  y = drawSpecRow(ctx, 'OS', phone1.os, phone2.os, y);
+
+  // Dimensions
+  y = drawSectionHeader(ctx, '📐 Physical', y + 10);
+  y = drawSpecRow(ctx, 'Dimensions', phone1.dimensions, phone2.dimensions, y);
+  y = drawSpecRow(ctx, 'Weight', phone1.weight, phone2.weight, y);
+
+  // Footer
+  ctx.fillStyle = COLORS.textMuted;
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Generated by Infographic Generator · For reference only', WIDTH / 2, HEIGHT - 20);
+  ctx.textAlign = 'left';
+
+  return canvas.toBuffer('image/png');
+}
+
+module.exports = { generateInfographic };
