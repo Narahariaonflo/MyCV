@@ -61,6 +61,30 @@ async function fetchSpecs(phoneId) {
 }
 
 /**
+ * Extract the RAM portion from a combined "Internal" field.
+ * GSMArena sometimes lists memory as e.g. "256GB 12GB RAM, 512GB 16GB RAM, 1TB 16GB RAM".
+ * This extracts only the RAM value, e.g. "12GB".
+ * Returns the original string unchanged if no RAM pattern is found.
+ */
+function normaliseMemory(raw) {
+  if (!raw || typeof raw !== 'string') return raw;
+  const match = raw.match(/(\d+GB)\s*RAM/i);
+  return match ? match[1] : raw;
+}
+
+/**
+ * Extract the first storage capacity from a combined "Internal" field.
+ * GSMArena sometimes lists memory as e.g. "256GB 12GB RAM, 512GB 16GB RAM, 1TB 16GB RAM".
+ * This extracts the base storage, e.g. "256GB".
+ * Returns the original string unchanged if no capacity pattern is found.
+ */
+function normaliseStorage(raw) {
+  if (!raw || typeof raw !== 'string') return raw;
+  const match = raw.match(/(\d+(?:GB|TB))/i);
+  return match ? match[1] : raw;
+}
+
+/**
  * Convert raw scraped specs into the standardized PhoneSpecification schema.
  */
 function normalizeSpecs(phoneId, raw) {
@@ -92,8 +116,8 @@ function normalizeSpecs(phoneId, raw) {
       cpu: find('cpu') || 'Octa-core',
       gpu: find('gpu') || 'Adreno 760',
     },
-    ram: find('ram', 'internal', 'memory') || (brand === 'Samsung' ? '12GB' : '8GB'),
-    storage: find('storage', 'internal', 'memory') || '256GB',
+    ram: normaliseMemory(find('ram', 'internal', 'memory')) || (brand === 'Samsung' ? '12GB' : '8GB'),
+    storage: normaliseStorage(find('storage', 'internal', 'memory')) || '256GB',
     camera: {
       rear: find('rear camera', 'main camera', 'camera') || '200MP wide + 50MP ultrawide + 50MP telephoto',
       front: find('front camera', 'selfie camera') || '12MP with autofocus',
@@ -127,4 +151,4 @@ function extractTech(displayStr) {
   return null;
 }
 
-module.exports = { fetchSpecs, normalizeSpecs, PHONE_PATHS };
+module.exports = { fetchSpecs, normalizeSpecs, normaliseMemory, normaliseStorage, PHONE_PATHS };

@@ -1,7 +1,7 @@
 'use strict';
 
 const nock = require('nock');
-const { fetchSpecs, normalizeSpecs, PHONE_PATHS } = require('../../src/fetchers/specFetcher');
+const { fetchSpecs, normalizeSpecs, normaliseMemory, normaliseStorage, PHONE_PATHS } = require('../../src/fetchers/specFetcher');
 
 const GSMARENA_BASE = 'https://www.gsmarena.com';
 
@@ -29,6 +29,56 @@ const sampleSpecHTML = `
 describe('specFetcher', () => {
   afterEach(() => {
     nock.cleanAll();
+  });
+
+  describe('normaliseMemory', () => {
+    it('extracts RAM from combined "Internal" field', () => {
+      expect(normaliseMemory('256GB 12GB RAM')).toBe('12GB');
+      expect(normaliseMemory('512GB 16GB RAM')).toBe('16GB');
+    });
+
+    it('extracts RAM from standalone RAM field', () => {
+      expect(normaliseMemory('12GB RAM')).toBe('12GB');
+      expect(normaliseMemory('8GB')).toBe('8GB');
+    });
+
+    it('returns raw value when no RAM pattern found', () => {
+      expect(normaliseMemory('256GB')).toBe('256GB');
+    });
+
+    it('handles null/undefined/empty gracefully', () => {
+      expect(normaliseMemory(null)).toBeNull();
+      expect(normaliseMemory(undefined)).toBeUndefined();
+      expect(normaliseMemory('')).toBe('');
+    });
+
+    it('extracts RAM from multi-variant string', () => {
+      expect(normaliseMemory('256GB 12GB RAM, 512GB 16GB RAM, 1TB 16GB RAM')).toBe('12GB');
+    });
+  });
+
+  describe('normaliseStorage', () => {
+    it('extracts first storage capacity from combined field', () => {
+      expect(normaliseStorage('256GB 12GB RAM')).toBe('256GB');
+    });
+
+    it('extracts TB storage', () => {
+      expect(normaliseStorage('1TB 16GB RAM')).toBe('1TB');
+    });
+
+    it('returns standalone capacity unchanged', () => {
+      expect(normaliseStorage('256GB')).toBe('256GB');
+    });
+
+    it('handles null/undefined/empty gracefully', () => {
+      expect(normaliseStorage(null)).toBeNull();
+      expect(normaliseStorage(undefined)).toBeUndefined();
+      expect(normaliseStorage('')).toBe('');
+    });
+
+    it('extracts first capacity from multi-variant string', () => {
+      expect(normaliseStorage('256GB 12GB RAM, 512GB 16GB RAM, 1TB 16GB RAM')).toBe('256GB');
+    });
   });
 
   describe('fetchSpecs', () => {

@@ -43,19 +43,24 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 /**
- * Draw a specification row
+ * Draw a specification row.
+ * Label is drawn on the left at PADDING; value1 is offset to give the label room;
+ * value2 is drawn at COL_RIGHT (the right data column).
  */
-function drawSpecRow(ctx, label, value1, value2, y, width) {
+function drawSpecRow(ctx, label, value1, value2, y) {
   const rowHeight = 32;
+  const labelX = PADDING;
+  const value1X = PADDING + 180; // offset to avoid overlapping the label
+  const value2X = COL_RIGHT;
 
   ctx.fillStyle = COLORS.textMuted;
   ctx.font = '14px sans-serif';
-  ctx.fillText(label, PADDING, y + 18);
+  ctx.fillText(label, labelX, y + 18);
 
   ctx.fillStyle = COLORS.text;
   ctx.font = 'bold 14px sans-serif';
-  ctx.fillText(value1, COL_LEFT, y + 18);
-  ctx.fillText(value2, COL_RIGHT, y + 18);
+  ctx.fillText(value1, value1X, y + 18);
+  ctx.fillText(value2, value2X, y + 18);
 
   return y + rowHeight;
 }
