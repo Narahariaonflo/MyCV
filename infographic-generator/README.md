@@ -96,7 +96,9 @@ Returns `image/png` with a 1080×1350 px comparison infographic.
 
 ```
 ├── public/                 # Static frontend assets
-│   └── index.html          # Comparison form and image preview
+│   ├── index.html          # Comparison form and image preview
+│   ├── script.js           # Frontend logic (selection, API call, image display)
+│   └── style.css           # Responsive styling (dark theme)
 ├── schemas/                # JSON Schema definitions
 │   ├── phone-specs.schema.json
 │   └── pricing.schema.json

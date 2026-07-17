@@ -1,0 +1,213 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f172a;
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 720px;
+  width: 100%;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 48px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid #334155;
+}
+
+/* ===== Typography ===== */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #3b82f6, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: #94a3b8;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ===== Legend ===== */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.legend-dot.blue { background: #3b82f6; }
+.legend-dot.red  { background: #ef4444; }
+
+/* ===== Phone Selector ===== */
+.phone-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.phone-card {
+  background: #0f172a;
+  border: 2px solid #334155;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.phone-card:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+}
+
+.phone-card.selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.phone-card.selected.phone2 {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.phone-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.phone-card .brand {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.phone-card .selector-indicator {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #334155;
+  color: #94a3b8;
+}
+
+.phone-card.selected .selector-indicator {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.phone-card.selected.phone2 .selector-indicator {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ===== Generate Button ===== */
+.generate-btn {
+  width: 100%;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.generate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.generate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== Result Area ===== */
+.result {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.result img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Error Message ===== */
+.error-msg {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+/* ===== Spinner ===== */
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Save Hint ===== */
+.save-hint {
+  margin-top: 12px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  body { padding: 20px 12px; }
+  .container { padding: 28px 20px; }
+  .phone-selector { grid-template-columns: 1fr; }
+  h1 { font-size: 1.5rem; }
+}
