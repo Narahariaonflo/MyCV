@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://infographic-generator/schemas/pricing.schema.json",
+  "title": "PricingData",
+  "description": "Normalized pricing information used to display current smartphone prices.",
+  "type": "object",
+  "required": [
+    "phoneId",
+    "price",
+    "currency",
+    "source",
+    "fetchedAt"
+  ],
+  "properties": {
+    "phoneId": {
+      "type": "string",
+      "description": "Canonical slug matching the phone-specs id, e.g. galaxy-s26-ultra.",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "price": {
+      "type": "number",
+      "description": "Numeric price amount.",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code, e.g. USD, EUR, GBP.",
+      "minLength": 3,
+      "maxLength": 3
+    },
+    "source": {
+      "type": "string",
+      "description": "Name of the pricing source, e.g. Samsung Official Store or Apple Store.",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the product page where the price was retrieved."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the price was observed, in YYYY-MM-DD format."
+    },
+    "fetchedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the data was fetched."
+    }
+  }
+}
